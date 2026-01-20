@@ -10,6 +10,11 @@ interface Comment {
   author: string;
   likes: number;
   timestamp: number;
+  replies?: Comment[];
+  replyCount?: number;
+  hasReplies?: boolean;
+  videoId?: string;
+  tiktokCommentId?: string;
 }
 
 export default function PublicCommentViewer() {
@@ -17,9 +22,12 @@ export default function PublicCommentViewer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [nextSyncAt, setNextSyncAt] = useState<Date | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const [isFromCache, setIsFromCache] = useState<boolean>(false);
   const videoUrl = process.env.NEXT_PUBLIC_VIDEO_URL || '';
 
-  // Auto-fetch comments on component mount
+  // Auto-fetch comments from Supabase only on component mount (no API call)
   useEffect(() => {
     if (!videoUrl) {
       setError('Video URL nav konfigurēts. Lūdzu, pievienojiet NEXT_PUBLIC_VIDEO_URL .env.local failā.');
@@ -27,10 +35,43 @@ export default function PublicCommentViewer() {
       return;
     }
 
-    fetchComments();
+    loadCommentsFromSupabase();
   }, [videoUrl]);
 
-  const fetchComments = async () => {
+  // Countdown timer effect
+  useEffect(() => {
+    if (!nextSyncAt) {
+      setTimeRemaining('');
+      return;
+    }
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const syncTime = nextSyncAt.getTime();
+      const diff = syncTime - now;
+
+      if (diff <= 0) {
+        setTimeRemaining('Gatavs atjaunot');
+        return;
+      }
+
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+
+      setTimeRemaining(`${minutes}m ${seconds.toString().padStart(2, '0')}s`);
+    };
+
+    // Update immediately
+    updateCountdown();
+
+    // Update every second
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [nextSyncAt]);
+
+  // Load comments from Supabase only (no API call) - used on page load
+  const loadCommentsFromSupabase = async () => {
     if (!videoUrl) return;
 
     setLoading(true);
@@ -42,7 +83,7 @@ export default function PublicCommentViewer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ videoUrl }),
+        body: JSON.stringify({ videoUrl, skipApi: true }), // Only fetch from Supabase
       });
 
       const data = await response.json();
@@ -56,6 +97,59 @@ export default function PublicCommentViewer() {
         const sortedComments = [...data.comments].sort((a, b) => b.timestamp - a.timestamp);
         setComments(sortedComments);
         setLastUpdated(new Date());
+        
+        // Set sync information
+        if (data.nextSyncAt) {
+          setNextSyncAt(new Date(data.nextSyncAt));
+        } else {
+          setNextSyncAt(null);
+        }
+        setIsFromCache(data.isFromCache || true); // Always from cache on page load
+      } else {
+        throw new Error('Nav komentāru');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Radās kļūda');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch comments with API sync check (used when button is pressed)
+  const fetchComments = async () => {
+    if (!videoUrl) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/fetch-comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ videoUrl, skipApi: false }), // Allow API sync check
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Neizdevās ielādēt komentārus');
+      }
+
+      if (data.comments && Array.isArray(data.comments)) {
+        // Sort comments by timestamp (newest first)
+        const sortedComments = [...data.comments].sort((a, b) => b.timestamp - a.timestamp);
+        setComments(sortedComments);
+        setLastUpdated(new Date());
+        
+        // Set sync information
+        if (data.nextSyncAt) {
+          setNextSyncAt(new Date(data.nextSyncAt));
+        } else {
+          setNextSyncAt(null);
+        }
+        setIsFromCache(data.isFromCache || false);
       } else {
         throw new Error('Nav komentāru');
       }
@@ -108,16 +202,27 @@ export default function PublicCommentViewer() {
                 <h2 className="text-2xl font-bold text-white">
                   💬 Tiešraides komentāri
                 </h2>
-                <button
-                  onClick={fetchComments}
-                  disabled={loading}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold rounded-lg hover:from-cyan-500 hover:to-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ 
-                    boxShadow: '0 0 15px rgba(0, 217, 255, 0.4)',
-                  }}
-                >
-                  {loading ? 'Atjauno...' : '🔄'}
-                </button>
+                <div className="flex items-center gap-3">
+                  {timeRemaining && (
+                    <div className="text-sm text-gray-300">
+                      {isFromCache && (
+                        <span className="text-cyan-400">📦 No cache - </span>
+                      )}
+                      <span>Nākamā atjaunošana: <span className="font-semibold text-cyan-400">{timeRemaining}</span></span>
+                    </div>
+                  )}
+                  <button
+                    onClick={fetchComments}
+                    disabled={loading || (timeRemaining && timeRemaining !== 'Gatavs atjaunot')}
+                    className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold rounded-lg hover:from-cyan-500 hover:to-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ 
+                      boxShadow: '0 0 15px rgba(0, 217, 255, 0.4)',
+                    }}
+                    title="Atjaunot komentārus no TikTok API"
+                  >
+                    {loading ? 'Atjauno...' : '🔄'}
+                  </button>
+                </div>
               </div>
               {comments.length === 0 ? (
                 <div className="text-center py-12">
