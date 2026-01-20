@@ -213,7 +213,7 @@ export default function PublicCommentViewer() {
                   )}
                   <button
                     onClick={fetchComments}
-                    disabled={loading || (timeRemaining && timeRemaining !== 'Gatavs atjaunot')}
+                    disabled={loading || !!(timeRemaining && timeRemaining !== 'Gatavs atjaunot')}
                     className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold rounded-lg hover:from-cyan-500 hover:to-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ 
                       boxShadow: '0 0 15px rgba(0, 217, 255, 0.4)',
