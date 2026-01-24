@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import CommentFeed from './components/CommentFeed';
-import StatsBar from './components/StatsBar';
-import AboutProjectCard from './components/AboutProjectCard';
-import DeveloperProfileCard from './components/DeveloperProfileCard';
-import NavigationSidebar from './components/NavigationSidebar';
-import NavigationGuideCard from './components/NavigationGuideCard';
-import MobileHeader from './components/MobileHeader';
+import CommentFeed from '@/app/components/CommentFeed';
+import StatsBar from '@/app/components/StatsBar';
+import AboutProjectCard from '@/app/components/AboutProjectCard';
+import DeveloperProfileCard from '@/app/components/DeveloperProfileCard';
+import NavigationSidebar from '@/app/components/NavigationSidebar';
+import NavigationGuideCard from '@/app/components/NavigationGuideCard';
+import MobileHeader from '@/app/components/MobileHeader';
 
 interface Comment {
   id: string;
