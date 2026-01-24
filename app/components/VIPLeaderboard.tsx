@@ -87,7 +87,7 @@ export default function VIPLeaderboard({ comments }: VIPLeaderboardProps) {
 
   if (leaderboard.length === 0) {
     return (
-      <div className="bg-gray-900/90 rounded-xl border border-gray-800 p-6 backdrop-blur-sm" style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.1)' }}>
+      <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6 transition-all duration-200 hover:scale-[1.02] hover:border-white/20">
         <h2 className="text-2xl font-bold text-white mb-4">⭐ VIP</h2>
         <p className="text-gray-400">Nav komentāru, lai rādītu līderbordi.</p>
       </div>
@@ -95,12 +95,12 @@ export default function VIPLeaderboard({ comments }: VIPLeaderboardProps) {
   }
 
   return (
-    <div className="bg-gray-900/90 rounded-xl border border-gray-800 p-6 backdrop-blur-sm" style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.1)' }}>
+    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6 transition-all duration-200 hover:scale-[1.02] hover:border-white/20">
       <h2 className="text-2xl font-bold text-white mb-4">⭐ VIP</h2>
       <p className="text-sm text-gray-400 mb-4">
         Top komentētāji pēc iesaistes (komentāri + laiki)
       </p>
-      <div className="space-y-3">
+      <div className="space-y-3 max-h-[400px] overflow-y-auto">
         {leaderboard.map((entry, index) => {
           const rank = index + 1;
           const rankStyle = getRankStyle(rank);

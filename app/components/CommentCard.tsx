@@ -180,37 +180,30 @@ export default function CommentCard({ comment }: CommentCardProps) {
   const hasReplies = comment.hasReplies || replyCount > 0 || replies.length > 0;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 font-mono">
       {/* Main Comment */}
       <div 
-        className="bg-gray-900 border border-gray-800 rounded-lg p-4 transition-all duration-300 hover:border-cyan-500/50" 
-        style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 217, 255, 0.3)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-        }}
+        className="bg-black/30 border border-green-500/10 rounded p-3 transition-all duration-300 hover:border-green-500/30" 
       >
         <div className="flex justify-between items-start mb-2">
-          <p className="text-white font-semibold text-lg">{comment.author}</p>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400">
+          <p className="text-green-400 font-semibold text-xs">@{comment.author}</p>
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-green-300/50">
               {getRelativeTime(comment.timestamp)}
             </span>
-            <span className="text-sm text-gray-300 flex items-center gap-1">
-              <span>❤️</span>
-              <span className="font-medium">{comment.likes}</span>
+            <span className="text-green-400 flex items-center gap-1">
+              <span>♥</span>
+              <span>{comment.likes}</span>
             </span>
           </div>
         </div>
-        <p className="text-gray-300 text-base leading-relaxed">
+        <p className="text-green-200 text-xs leading-relaxed">
           {comment.text}
         </p>
 
         {/* Show/Hide Replies Button - Only show if comment has replies */}
         {hasReplies && (
-          <div className="mt-3 pt-3 border-t border-gray-800">
+          <div className="mt-2 pt-2 border-t border-green-500/10">
             <button
               onClick={() => {
                 if (!initialRepliesLoaded && !showReplies) {
@@ -220,22 +213,22 @@ export default function CommentCard({ comment }: CommentCardProps) {
                 }
               }}
               disabled={loadingReplies}
-              className="text-sm text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-2 transition-colors disabled:opacity-50"
+              className="text-xs text-green-400 hover:text-green-300 flex items-center gap-1 transition-colors disabled:opacity-50"
             >
               {loadingReplies ? (
                 <>
-                  <span className="animate-spin">⏳</span>
-                  <span>Ielādē...</span>
+                  <span className="text-green-500">$</span>
+                  <span>loading...</span>
                 </>
               ) : showReplies ? (
                 <>
                   <span>▼</span>
-                  <span>Paslēpt atbildes{replyCount > 0 ? ` (${replyCount})` : ''}</span>
+                  <span>hide{replyCount > 0 ? ` (${replyCount})` : ''}</span>
                 </>
               ) : (
                 <>
                   <span>▶</span>
-                  <span>Rādīt atbildes{replyCount > 0 ? ` (${replyCount})` : ''}</span>
+                  <span>show{replyCount > 0 ? ` (${replyCount})` : ''}</span>
                 </>
               )}
             </button>
@@ -245,7 +238,7 @@ export default function CommentCard({ comment }: CommentCardProps) {
 
       {/* Nested Replies */}
       {showReplies && (
-        <div className="ml-4 md:ml-8 space-y-2 border-l-2 border-cyan-500/20 pl-4">
+        <div className="ml-4 space-y-2 border-l border-green-500/20 pl-3">
           {replies.length > 0 ? (
             <>
               {replies.map((reply) => (
@@ -258,17 +251,17 @@ export default function CommentCard({ comment }: CommentCardProps) {
                   <button
                     onClick={fetchMoreReplies}
                     disabled={loadingMore}
-                    className="text-sm text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-2 transition-colors disabled:opacity-50"
+                    className="text-xs text-green-400 hover:text-green-300 flex items-center gap-1 transition-colors disabled:opacity-50"
                   >
                     {loadingMore ? (
                       <>
-                        <span className="animate-spin">⏳</span>
-                        <span>Ielādē vairāk...</span>
+                        <span className="text-green-500">$</span>
+                        <span>loading more...</span>
                       </>
                     ) : (
                       <>
                         <span>+</span>
-                        <span>Ielādēt vairāk atbildes ({replyCount - replies.length} atlikušas)</span>
+                        <span>load more ({replyCount - replies.length} remaining)</span>
                       </>
                     )}
                   </button>
@@ -276,8 +269,8 @@ export default function CommentCard({ comment }: CommentCardProps) {
               )}
             </>
           ) : (
-            <div className="text-gray-500 text-sm py-2">
-              Nav atbilžu
+            <div className="text-green-300/50 text-xs py-2">
+              $ no replies
             </div>
           )}
         </div>
