@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import NavigationSidebar from '@/app/components/NavigationSidebar';
-import MobileHeader from '@/app/components/MobileHeader';
-import CommentFeed from '@/app/components/CommentFeed';
-import DeveloperProfileCard from '@/app/components/DeveloperProfileCard';
-import HeroSection from '@/app/components/lesson/HeroSection';
-import WarningBox from '@/app/components/lesson/WarningBox';
-import SafeVsDangerous from '@/app/components/lesson/SafeVsDangerous';
-import RecoveryChecklist from '@/app/components/lesson/RecoveryChecklist';
+import NavigationSidebar from '../../components/NavigationSidebar';
+import MobileHeader from '../../components/MobileHeader';
+import CommentFeed from '../../components/CommentFeed';
+import DeveloperProfileCard from '../../components/DeveloperProfileCard';
+import HeroSection from '../../components/lesson/HeroSection';
+import WarningBox from '../../components/lesson/WarningBox';
+import SafeVsDangerous from '../../components/lesson/SafeVsDangerous';
+import RecoveryChecklist from '../../components/lesson/RecoveryChecklist';
 
 interface Comment {
   id: string;

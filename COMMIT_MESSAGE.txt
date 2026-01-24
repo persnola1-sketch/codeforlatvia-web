@@ -1,0 +1,38 @@
+Fix: Remove ReferenceError bug and reduce excessive debug logging
+
+## Bug Fixes
+- Fixed critical bug in fetch-comments route: Removed undefined `savedRepliesCount++` references that caused ReferenceError when saving replies (lines 704, 720)
+- Fixed TypeScript compilation error: Added proper type annotations to Map constructor for apiCommentMap (line 914-916)
+- Fixed TypeScript build error in PublicCommentViewer: Converted disabled prop expression to explicit boolean to prevent type error (line 216)
+
+## Code Quality Improvements
+- Reduced excessive debug logging in fetch-comments/route.ts:
+  - Removed verbose JSON.stringify dumps of API responses
+  - Removed debugging sections analyzing comment structures
+  - Removed individual comment logging loops
+  - Simplified reply fetching logs
+  - Kept essential error/warning logs intact
+
+- Reduced excessive debug logging in fetch-replies/route.ts:
+  - Simplified parent comment UUID lookup logging
+  - Simplified Supabase reply fetching logs
+  - Removed verbose skipApi section logging
+  - Removed JSON.stringify dumps
+  - Kept essential error/warning logs intact
+
+- Reduced excessive debug logging in CommentCard.tsx:
+  - Removed verbose request/response logging
+  - Removed detailed comment information logging
+  - Kept essential error handling logs
+
+## Impact
+- Prevents runtime crashes when syncing comments with replies
+- Improves performance by reducing console output
+- Better production-ready code quality
+- No breaking changes - all error handling preserved
+
+## Files Changed
+- app/api/fetch-comments/route.ts
+- app/api/fetch-replies/route.ts
+- app/components/CommentCard.tsx
+- app/components/PublicCommentViewer.tsx

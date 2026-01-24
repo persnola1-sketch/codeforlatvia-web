@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import NavigationSidebar from '@/app/components/NavigationSidebar';
-import MobileHeader from '@/app/components/MobileHeader';
-import CommentFeed from '@/app/components/CommentFeed';
-import DeveloperProfileCard from '@/app/components/DeveloperProfileCard';
+import NavigationSidebar from '../../components/NavigationSidebar';
+import MobileHeader from '../../components/MobileHeader';
+import CommentFeed from '../../components/CommentFeed';
+import DeveloperProfileCard from '../../components/DeveloperProfileCard';
 
 interface Comment {
   id: string;
