@@ -18,10 +18,9 @@ interface Comment {
 
 interface CommentFeedProps {
   compact?: boolean;
-  onCommentsChange?: (comments: Comment[]) => void;
 }
 
-export default function CommentFeed({ compact = false, onCommentsChange }: CommentFeedProps) {
+export default function CommentFeed({ compact = false }: CommentFeedProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,10 +95,16 @@ export default function CommentFeed({ compact = false, onCommentsChange }: Comme
       }
 
       if (data.comments && Array.isArray(data.comments)) {
+        // Remove duplicates based on id and tiktokCommentId
+        const uniqueComments = data.comments.filter((comment: Comment, index: number, self: Comment[]) => 
+          index === self.findIndex((c: Comment) => 
+            c.id === comment.id && 
+            (c.tiktokCommentId === comment.tiktokCommentId || (!c.tiktokCommentId && !comment.tiktokCommentId))
+          )
+        );
         // Sort comments by timestamp (newest first)
-        const sortedComments = [...data.comments].sort((a, b) => b.timestamp - a.timestamp);
+        const sortedComments = [...uniqueComments].sort((a, b) => b.timestamp - a.timestamp);
         setComments(sortedComments);
-        onCommentsChange?.(sortedComments);
         
         // Set sync information
         if (data.nextSyncAt) {
@@ -141,10 +146,16 @@ export default function CommentFeed({ compact = false, onCommentsChange }: Comme
       }
 
       if (data.comments && Array.isArray(data.comments)) {
+        // Remove duplicates based on id and tiktokCommentId
+        const uniqueComments = data.comments.filter((comment: Comment, index: number, self: Comment[]) => 
+          index === self.findIndex((c: Comment) => 
+            c.id === comment.id && 
+            (c.tiktokCommentId === comment.tiktokCommentId || (!c.tiktokCommentId && !comment.tiktokCommentId))
+          )
+        );
         // Sort comments by timestamp (newest first)
-        const sortedComments = [...data.comments].sort((a, b) => b.timestamp - a.timestamp);
+        const sortedComments = [...uniqueComments].sort((a, b) => b.timestamp - a.timestamp);
         setComments(sortedComments);
-        onCommentsChange?.(sortedComments);
         
         // Set sync information
         if (data.nextSyncAt) {
@@ -216,8 +227,8 @@ export default function CommentFeed({ compact = false, onCommentsChange }: Comme
         </div>
       ) : (
         <div className={`space-y-2 flex-1 ${compact ? 'overflow-y-auto' : 'max-h-[800px] overflow-y-auto'}`}>
-          {comments.map((comment) => (
-            <CommentCard key={comment.id} comment={comment} />
+          {comments.map((comment, index) => (
+            <CommentCard key={`comment-${comment.id}-${index}-${comment.tiktokCommentId || ''}`} comment={comment} />
           ))}
         </div>
       )}

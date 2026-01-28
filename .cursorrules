@@ -1,0 +1,38 @@
+# CodeForLatvia Project Rules
+
+## Language & Localization
+
+**IMPORTANT: This website is designed for a Latvian audience.**
+
+- All user-facing text, content, and UI elements should be in **Latvian language**
+- This includes:
+  - Page titles, headings, and descriptions
+  - Button labels and CTAs
+  - Navigation items
+  - Error messages and notifications
+  - Form labels and placeholders
+  - Help text and tooltips
+  - Any content visible to end users
+
+- Code comments, variable names, and technical documentation can remain in English
+- API responses and data structures can use English for consistency
+- When creating new components or pages, always write the content in Latvian first
+
+## Examples
+
+✅ **Correct:**
+- Button: "Sākt mācīties"
+- Heading: "Kāpēc Code For Latvia?"
+- Description: "Es izveidoju Code For Latvia galvenokārt sevis dēļ..."
+
+❌ **Incorrect:**
+- Button: "Start Learning"
+- Heading: "Why Code For Latvia?"
+- Description: "I created Code For Latvia primarily for myself..."
+
+## Translation Guidelines
+
+- Use natural, conversational Latvian
+- Technical terms can remain in English if commonly used (e.g., "API", "AI", "code")
+- Maintain consistency in terminology across the site
+- Consider the target audience (Latvian youth interested in technology)

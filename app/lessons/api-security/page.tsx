@@ -11,21 +11,7 @@ import WarningBox from '../../components/lesson/WarningBox';
 import SafeVsDangerous from '../../components/lesson/SafeVsDangerous';
 import RecoveryChecklist from '../../components/lesson/RecoveryChecklist';
 
-interface Comment {
-  id: string;
-  text: string;
-  author: string;
-  likes: number;
-  timestamp: number;
-  replies?: Comment[];
-  replyCount?: number;
-  hasReplies?: boolean;
-  videoId?: string;
-  tiktokCommentId?: string;
-}
-
 export default function APISecurityLesson() {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -191,7 +177,7 @@ export default function APISecurityLesson() {
               <DeveloperProfileCard />
 
               {/* Live Pulse Feed */}
-              <CommentFeed compact={true} onCommentsChange={setComments} />
+              <CommentFeed compact={true} />
             </div>
           </div>
         </div>

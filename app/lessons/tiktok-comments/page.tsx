@@ -7,21 +7,7 @@ import MobileHeader from '../../components/MobileHeader';
 import CommentFeed from '../../components/CommentFeed';
 import DeveloperProfileCard from '../../components/DeveloperProfileCard';
 
-interface Comment {
-  id: string;
-  text: string;
-  author: string;
-  likes: number;
-  timestamp: number;
-  replies?: Comment[];
-  replyCount?: number;
-  hasReplies?: boolean;
-  videoId?: string;
-  tiktokCommentId?: string;
-}
-
 export default function TikTokCommentsLesson() {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -127,7 +113,7 @@ export default function TikTokCommentsLesson() {
               <DeveloperProfileCard />
 
               {/* Live Pulse Feed */}
-              <CommentFeed compact={true} onCommentsChange={setComments} />
+              <CommentFeed compact={true} />
             </div>
           </div>
         </div>

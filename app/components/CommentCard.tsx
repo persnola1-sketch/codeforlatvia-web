@@ -73,8 +73,12 @@ export default function CommentCard({ comment }: CommentCardProps) {
       }
 
       if (data.replies && Array.isArray(data.replies)) {
+        // Remove duplicates based on id
+        const uniqueReplies = data.replies.filter((reply: Comment, index: number, self: Comment[]) => 
+          index === self.findIndex((r: Comment) => r.id === reply.id)
+        );
         // Take first 3-6 replies for initial load
-        const initialReplies = data.replies.slice(0, 6);
+        const initialReplies = uniqueReplies.slice(0, 6);
         setReplies(initialReplies);
         setInitialRepliesLoaded(true);
         setShowReplies(true); // Always show even if empty to display "no replies" message
@@ -131,12 +135,14 @@ export default function CommentCard({ comment }: CommentCardProps) {
       const data = await response.json();
 
       if (response.ok && data.replies) {
-        // Append new replies to existing ones
+        // Remove duplicates within new replies and append to existing ones
         setReplies(prevReplies => {
-          const newReplies = data.replies.filter(
-            (newReply: Comment) => !prevReplies.some(prev => prev.id === newReply.id)
+          const uniqueNewReplies = data.replies.filter(
+            (newReply: Comment, index: number, self: Comment[]) => 
+              index === self.findIndex((r: Comment) => r.id === newReply.id) &&
+              !prevReplies.some(prev => prev.id === newReply.id)
           );
-          return [...prevReplies, ...newReplies];
+          return [...prevReplies, ...uniqueNewReplies];
         });
         
         // Check if all replies are loaded
@@ -241,8 +247,8 @@ export default function CommentCard({ comment }: CommentCardProps) {
         <div className="ml-4 space-y-2 border-l border-green-500/20 pl-3">
           {replies.length > 0 ? (
             <>
-              {replies.map((reply) => (
-                <CommentCard key={reply.id} comment={reply} />
+              {replies.map((reply, replyIndex) => (
+                <CommentCard key={`reply-${comment.id}-${reply.id}-${replyIndex}-${reply.tiktokCommentId || ''}`} comment={reply} />
               ))}
               
               {/* Load More Replies Button */}

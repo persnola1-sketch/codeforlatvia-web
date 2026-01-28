@@ -1,6 +1,6 @@
 # CodeForLatvia
 
-A minimalistic dark-themed public dashboard for displaying TikTok video comments in real-time. Built for the Latvian audience to view comments and track VIP leaderboards with a professional, glowing design aesthetic.
+A minimalistic dark-themed site for CodeForLatvia: landing page, featured projects, lessons (API security, TikTok experiment), and a live comment feed. Built for the Latvian audience with a professional, glowing design aesthetic.
 
 ![CodeForLatvia](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)
@@ -13,8 +13,7 @@ A minimalistic dark-themed public dashboard for displaying TikTok video comments
 - **User Tracking**: Tracks user statistics (total comments, last active) in real-time
 - **API Usage Monitoring**: Tracks monthly RapidAPI request usage (200k requests/month limit) with console logging
 - **Comment Replies**: Fetch replies to specific comments using the Apibox TikTok API
-- **VIP Leaderboard**: Real-time tracking of top commenters ranked by engagement (comments + likes)
-- **Live Comment Feed**: Displays comments sorted by newest first with beautiful dark theme
+- **Live Comment Feed**: Displays comments (on lesson pages) sorted by newest first with dark theme
 - **Minimalistic Dark Design**: Professional dark theme with glowing cyan/purple accents
 - **Mobile Responsive**: Fully responsive design that works beautifully on all devices
 - **Photo & Video Support**: Works with both TikTok video and photo post URLs
@@ -28,14 +27,12 @@ A minimalistic dark-themed public dashboard for displaying TikTok video comments
 - **Database**: [Supabase](https://supabase.com/) - PostgreSQL database for comment storage and user tracking
 - **APIs**:
   - [Apibox TikTok API](https://rapidapi.com/) via RapidAPI - For fetching TikTok comments and replies (200k requests/month limit)
-  - [OpenRouter](https://openrouter.ai/) - For AI-powered comment analysis (optional, currently not used in public viewer)
 
 ## 📋 Prerequisites
 
 - Node.js 18+ installed
 - RapidAPI account with Apibox TikTok API subscription (200k requests/month limit)
 - Supabase account and project (free tier available)
-- (Optional) OpenRouter API key for AI analysis features
 
 ## 🛠️ Setup Instructions
 
@@ -70,10 +67,7 @@ Create a `.env.local` file in the root directory:
 # RapidAPI Key for Apibox TikTok API
 RAPIDAPI_KEY=your_rapidapi_key_here
 
-# OpenRouter API Key (optional, for AI analysis features)
-OPENROUTER_API_KEY=your_openrouter_api_key_here
-
-# TikTok Video URL for Public Comment Viewer
+# TikTok Video URL for lesson pages (CommentFeed)
 # Set the video/photo URL you want to display comments from
 NEXT_PUBLIC_VIDEO_URL=https://www.tiktok.com/@username/video/1234567890
 
@@ -87,7 +81,6 @@ SUPABASE_ANON_KEY=your_supabase_anon_key_here
 **Getting API Keys:**
 - **RapidAPI**: Sign up at [rapidapi.com](https://rapidapi.com/), subscribe to "Apibox TikTok API" (200k requests/month limit)
 - **Supabase**: Sign up at [supabase.com](https://supabase.com/), create a project, get URL and anon key from Settings > API
-- **OpenRouter**: Sign up at [openrouter.ai/keys](https://openrouter.ai/keys) (optional)
 
 ### 5. Run Development Server
 
@@ -110,18 +103,32 @@ npm start
 tiktokComents/
 ├── app/
 │   ├── api/
-│   │   ├── analyze-comments/     # API route for AI comment analysis
+│   │   ├── count-loc/            # GET route: count lines of code (app/ + lib/)
 │   │   ├── fetch-comments/       # API route to fetch TikTok comments (with Global Sync)
 │   │   ├── fetch-replies/        # API route to fetch comment replies
-│   │   └── test-env/             # Test endpoint for environment variables
+│   │   └── test-env/             # Dev-only: test environment variables
 │   ├── components/
-│   │   ├── CommentAnalysis.tsx   # Legacy component (not used in main page)
-│   │   ├── CommentCard.tsx       # Reusable comment card component
-│   │   ├── PublicCommentViewer.tsx  # Main public dashboard component
-│   │   └── VIPLeaderboard.tsx    # VIP leaderboard component
+│   │   ├── AboutProjectCard.tsx  # “Why CodeForLatvia” / stack card
+│   │   ├── CommentCard.tsx       # Reusable comment card (used in CommentFeed)
+│   │   ├── CommentFeed.tsx       # Live comment feed (lessons: api-security, tiktok-comments)
+│   │   ├── DeveloperProfileCard.tsx  # Mentor profile (lessons sidebar)
+│   │   ├── FeaturedProjects.tsx  # Featured projects grid (home + /projects)
+│   │   ├── LandingHero.tsx       # Hero section (home)
+│   │   ├── MobileHeader.tsx      # Mobile nav
+│   │   ├── NavigationGuideCard.tsx   # “Mana Rīku Kaste” / digitalization card
+│   │   ├── NavigationSidebar.tsx # Main nav (home + lessons)
+│   │   ├── StatsBar.tsx          # LOC stats (home, calls /api/count-loc)
+│   │   ├── StickyNewsletterCTA.tsx   # Newsletter CTA after hero (home)
+│   │   ├── TechnologyBadge.tsx   # Tech pills (FeaturedProjects)
+│   │   └── lesson/               # Lesson-specific (HeroSection, WarningBox, etc.)
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
-│   └── page.tsx                  # Home page (uses PublicCommentViewer)
+│   ├── page.tsx                  # Home (LandingHero, About, Nav, Stats, Featured, Sticky CTA)
+│   ├── newsletter/page.tsx       # Newsletter signup (coming soon)
+│   ├── projects/page.tsx         # Projects listing (FeaturedProjects)
+│   └── lessons/
+│       ├── api-security/         # API security lesson + CommentFeed
+│       └── tiktok-comments/      # TikTok experiment lesson + CommentFeed
 ├── lib/
 │   └── supabase.ts               # Supabase client initialization
 ├── .env.local                    # Environment variables (create from env.template)
@@ -213,18 +220,7 @@ Fetches replies for a specific comment and automatically syncs them to Supabase.
 
 ### GET `/api/test-env`
 
-Test endpoint to verify environment variables are loaded correctly. Useful for debugging configuration issues.
-
-### POST `/api/analyze-comments`
-
-Analyzes comments using AI (OpenRouter). Currently not used in the public viewer but available for future features.
-
-**Request Body:**
-```json
-{
-  "comments": [...]
-}
-```
+Test endpoint to verify environment variables are loaded correctly. **Development only** — returns 404 when `NODE_ENV !== 'development'`. Useful for local debugging.
 
 ## 🔧 Configuration
 
@@ -240,11 +236,11 @@ The dashboard will automatically fetch and display comments from this video when
 
 ## 🎯 Usage
 
-1. Configure `NEXT_PUBLIC_VIDEO_URL` in `.env.local` with your TikTok video/photo URL
+1. Configure `NEXT_PUBLIC_VIDEO_URL` in `.env.local` with your TikTok video/photo URL (used on lesson pages for the live comment feed).
 2. Start the development server: `npm run dev`
-3. Visit `http://localhost:3000` to see the public comment viewer
-4. Comments automatically load and display in real-time
-5. VIP leaderboard shows top commenters by engagement
+3. Visit `http://localhost:3000` for the home page (hero, featured projects, stats, newsletter CTA).
+4. Use the sidebar to open **API Drošība** or **TikTok Eksperiments**; comments load automatically when `NEXT_PUBLIC_VIDEO_URL` is set.
+5. Visit `/projects` for the full project list and `/newsletter` for the signup form (coming soon).
 
 ## 🔮 Future Plans
 
@@ -264,7 +260,6 @@ This project is designed to expand into **CodeForLatvia.lv** - a platform for th
 | `SUPABASE_URL` | Supabase project URL | Yes |
 | `SUPABASE_ANON_KEY` | Supabase anon/public key | Yes |
 | `NEXT_PUBLIC_VIDEO_URL` | TikTok video/photo URL to display | Yes |
-| `OPENROUTER_API_KEY` | OpenRouter API key for AI analysis | Optional |
 
 ## 🤝 Contributing
 
@@ -278,7 +273,6 @@ Private project - All rights reserved
 
 - [Apibox TikTok API](https://rapidapi.com/) - For TikTok data access (200k requests/month)
 - [Supabase](https://supabase.com/) - For database and backend infrastructure
-- [OpenRouter](https://openrouter.ai/) - For AI capabilities
 - Next.js and React communities
 
 ## 📝 Migration Notes

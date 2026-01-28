@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Lightbulb, Lock, Video } from 'lucide-react';
@@ -11,6 +12,11 @@ interface NavigationSidebarProps {
 
 export default function NavigationSidebar({ isMobileOpen = false, onMobileClose }: NavigationSidebarProps) {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
     { href: '/', label: 'Sākums', icon: Home },
@@ -20,9 +26,8 @@ export default function NavigationSidebar({ isMobileOpen = false, onMobileClose 
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
-    }
+    if (!mounted) return false;
+    if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
   };
 
