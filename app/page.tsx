@@ -9,6 +9,7 @@ import NavigationSidebar from './components/NavigationSidebar';
 import NavigationGuideCard from './components/NavigationGuideCard';
 import MobileHeader from './components/MobileHeader';
 import NewsletterSubscribe from './components/NewsletterSubscribe';
+import HeroSection from './components/HeroSection';
 
 interface Comment {
   id: string;
@@ -49,6 +50,9 @@ export default function Home() {
             
             {/* Column 2 (Center Content): lg:col-span-7 */}
             <div className="lg:col-span-7 lg:col-start-3 h-fit space-y-4 md:space-y-6">
+              {/* Hero Section */}
+              <HeroSection />
+
               {/* Hero/Mission Card */}
               <AboutProjectCard />
 
