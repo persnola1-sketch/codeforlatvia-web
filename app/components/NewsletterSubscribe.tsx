@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getSupabaseClient } from '../../lib/supabase';
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('');
@@ -10,20 +9,16 @@ export default function NewsletterSubscribe() {
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Check if Supabase is available and fetch count
   useEffect(() => {
     fetchSubscriberCount();
   }, []);
 
   const fetchSubscriberCount = async () => {
     try {
-      const supabase = getSupabaseClient();
-      const { count, error } = await supabase
-        .from('newsletter_subscribers')
-        .select('*', { count: 'exact', head: true });
-      
-      if (!error && count !== null) {
-        setSubscriberCount(count);
+      const res = await fetch('/api/newsletter');
+      const data = await res.json();
+      if (data.count !== undefined) {
+        setSubscriberCount(data.count);
       }
     } catch (err) {
       console.log('Could not fetch subscriber count');
@@ -42,18 +37,20 @@ export default function NewsletterSubscribe() {
     setStatus('loading');
 
     try {
-      const supabase = getSupabaseClient();
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert({ email: email.toLowerCase().trim() });
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-      if (error) {
-        if (error.code === '23505') {
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status === 409) {
           setStatus('error');
           setErrorMessage('Šis e-pasts jau ir reģistrēts!');
         } else {
-          console.error('Supabase error:', error);
-          throw error;
+          throw new Error(data.error || 'Failed');
         }
       } else {
         setStatus('success');
