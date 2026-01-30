@@ -2,44 +2,33 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-// Try to get Supabase client, return null if not configured
-function getSupabaseClientSafe() {
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) return null;
-    
-    const { createClient } = require('@supabase/supabase-js');
-    return createClient(url, key);
-  } catch {
-    return null;
-  }
-}
+import { getSupabaseClient } from '../../lib/supabase';
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [supabaseAvailable, setSupabaseAvailable] = useState(false);
 
   // Check if Supabase is available and fetch count
   useEffect(() => {
-    const supabase = getSupabaseClientSafe();
-    if (supabase) {
-      setSupabaseAvailable(true);
-      supabase
-        .from('newsletter_subscribers')
-        .select('*', { count: 'exact', head: true })
-        .then(({ count, error }: { count: number | null; error: unknown }) => {
-          if (!error && count !== null) {
-            setSubscriberCount(count);
-          }
-        })
-        .catch(() => {});
-    }
+    fetchSubscriberCount();
   }, []);
+
+  const fetchSubscriberCount = async () => {
+    try {
+      const supabase = getSupabaseClient();
+      const { count, error } = await supabase
+        .from('newsletter_subscribers')
+        .select('*', { count: 'exact', head: true });
+      
+      if (!error && count !== null) {
+        setSubscriberCount(count);
+      }
+    } catch (err) {
+      console.log('Could not fetch subscriber count');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,14 +41,8 @@ export default function NewsletterSubscribe() {
 
     setStatus('loading');
 
-    const supabase = getSupabaseClientSafe();
-    if (!supabase) {
-      setStatus('error');
-      setErrorMessage('Serviss pagaidām nav pieejams');
-      return;
-    }
-
     try {
+      const supabase = getSupabaseClient();
       const { error } = await supabase
         .from('newsletter_subscribers')
         .insert({ email: email.toLowerCase().trim() });
@@ -69,18 +52,16 @@ export default function NewsletterSubscribe() {
           setStatus('error');
           setErrorMessage('Šis e-pasts jau ir reģistrēts!');
         } else {
+          console.error('Supabase error:', error);
           throw error;
         }
       } else {
         setStatus('success');
         setEmail('');
-        // Update count
-        const { count } = await supabase
-          .from('newsletter_subscribers')
-          .select('*', { count: 'exact', head: true });
-        if (count !== null) setSubscriberCount(count);
+        fetchSubscriberCount();
       }
     } catch (err) {
+      console.error('Newsletter error:', err);
       setStatus('error');
       setErrorMessage('Kaut kas nogāja greizi. Mēģini vēlreiz.');
     }
@@ -103,7 +84,6 @@ export default function NewsletterSubscribe() {
             Saņem paziņojumus par jaunām pamācībām un projektiem.
           </p>
           
-          {/* Subscriber count */}
           {subscriberCount !== null && subscriberCount > 0 && (
             <div className="mt-3 flex items-center gap-2">
               <div className="flex -space-x-2">
