@@ -303,20 +303,20 @@ export default function ServicesPage() {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a 
-                    href="https://www.liaa.gov.lv/lv/programmas/atbalsts-digitalo-inovaciju-centru-un-eiropas-digitalo-inovaciju-centru-darbibai" 
+                    href="https://business.gov.lv/atbalsta-iespejas/atbalsts-digitalizacijai" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-sm text-orange-400 hover:text-orange-300 underline"
                   >
-                    → LIAA Digitalizācijas programma
+                    → Atbalsts digitalizācijai (business.gov.lv)
                   </a>
                   <a 
-                    href="https://digitallatvia.lv/" 
+                    href="https://www.liaa.gov.lv/lv/jaunums/liaa-uzsak-projektu-pienemsanu-jaunaja-digitalizacijas-programma" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-sm text-orange-400 hover:text-orange-300 underline"
                   >
-                    → Digital Latvia
+                    → LIAA programmas info
                   </a>
                   <a 
                     href="https://www.liaa.gov.lv/lv" 
