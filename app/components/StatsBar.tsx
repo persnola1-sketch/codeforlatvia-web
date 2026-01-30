@@ -26,7 +26,7 @@ export default function StatsBar() {
 
   if (loading) {
     return (
-      <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6 transition-all duration-200 hover:scale-[1.02] hover:border-white/20">
+      <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-lg shadow-black/20 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/30">
         <div className="flex items-center justify-center gap-2">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-cyan-400"></div>
           <span className="text-gray-400 text-sm font-mono">Ielādē...</span>
@@ -36,7 +36,7 @@ export default function StatsBar() {
   }
 
   return (
-    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6 transition-all duration-200 hover:scale-[1.02] hover:border-white/20">
+    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-lg shadow-black/20 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/30">
       <div className="flex items-center justify-center gap-3 h-full">
         <span className="text-gray-400 text-sm font-mono">AI ģenerētas koda rindas:</span>
         <span className="text-cyan-400 font-bold text-xl font-mono">

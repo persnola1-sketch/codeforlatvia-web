@@ -2,7 +2,7 @@
 
 export default function NavigationGuideCard() {
   return (
-    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-8 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 h-full">
+    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-lg shadow-black/20 p-8 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/30 h-full">
       <div className="space-y-6">
         <div>
           <h3 className="text-2xl font-bold text-white mb-4">🛠️ Mana Rīku Kaste (My Stack)</h3>

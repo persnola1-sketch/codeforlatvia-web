@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function AboutProjectCard() {
   return (
-    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-8 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 h-full flex flex-col justify-between">
+    <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-lg shadow-black/20 p-8 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/30 h-full flex flex-col justify-between">
       <div>
         <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
           Kāpēc Code For Latvia?
@@ -17,7 +17,7 @@ export default function AboutProjectCard() {
           </p>
           
           <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
-            Mans stāsts ir pavisam vienkāršs un atklāts: man ir 19 gadi, man nav augstākās izglītības un es neesmu sertificēts eksperts. Taču esmu bezgala aizrauts ar mākslīgo intelektu un tā milzīgo potenciālu. Mans lielais mērķis ir palīdzēt Latvijai digitalizēties un radīt kopienu, kurā satiktos līdzīgi domājošie – gan jaunieši, gan vecāka gadagājuma cilvēki, kuriem AI šķiet tikpat aizraujošs kā man.
+            Mans stāsts ir pavisam vienkāršs un atklāts: man ir 20 gadi, man nav augstākās izglītības un es neesmu sertificēts eksperts. Taču esmu bezgala aizrauts ar mākslīgo intelektu un tā milzīgo potenciālu. Mans lielais mērķis ir palīdzēt Latvijai digitalizēties un radīt kopienu, kurā satiktos līdzīgi domājošie – gan jaunieši, gan vecāka gadagājuma cilvēki, kuriem AI šķiet tikpat aizraujošs kā man.
           </p>
           
           <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
