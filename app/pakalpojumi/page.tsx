@@ -156,7 +156,7 @@ export default function ServicesPage() {
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="mailto:aleksis@codeforlatvia.lv?subject=AI%20Automatizācija%20-%20Konsultācija"
+                  href="mailto:mia@codeforlatvia.lv?subject=AI%20Automatizācija%20-%20Konsultācija"
                   className="px-6 py-3 border border-white/20 hover:bg-white/5 text-white font-semibold rounded-xl transition-all duration-200"
                 >
                   Bezmaksas Konsultācija
@@ -266,7 +266,7 @@ export default function ServicesPage() {
                   </ul>
                   
                   <a
-                    href="mailto:aleksis@codeforlatvia.lv?subject=Pakete%20-%20${pkg.name}"
+                    href="mailto:mia@codeforlatvia.lv?subject=Pakete%20-%20${pkg.name}"
                     className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
                       pkg.highlight
                         ? 'bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-400 hover:to-green-400 text-gray-900'
@@ -387,7 +387,7 @@ export default function ServicesPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:aleksis@codeforlatvia.lv?subject=Bezmaksas%20Konsultācija"
+                href="mailto:mia@codeforlatvia.lv?subject=Bezmaksas%20Konsultācija"
                 className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-400 hover:to-green-400 text-gray-900 font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
               >
                 <MessageSquare className="w-5 h-5" />
