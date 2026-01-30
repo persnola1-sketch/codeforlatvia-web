@@ -2,34 +2,44 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getSupabaseClient } from '../../lib/supabase';
+
+// Try to get Supabase client, return null if not configured
+function getSupabaseClientSafe() {
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return null;
+    
+    const { createClient } = require('@supabase/supabase-js');
+    return createClient(url, key);
+  } catch {
+    return null;
+  }
+}
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [supabaseAvailable, setSupabaseAvailable] = useState(false);
 
-  // Fetch subscriber count on mount
+  // Check if Supabase is available and fetch count
   useEffect(() => {
-    fetchSubscriberCount();
-  }, []);
-
-  const fetchSubscriberCount = async () => {
-    try {
-      const supabase = getSupabaseClient();
-      const { count, error } = await supabase
+    const supabase = getSupabaseClientSafe();
+    if (supabase) {
+      setSupabaseAvailable(true);
+      supabase
         .from('newsletter_subscribers')
-        .select('*', { count: 'exact', head: true });
-      
-      if (!error && count !== null) {
-        setSubscriberCount(count);
-      }
-    } catch (err) {
-      // Supabase not configured, that's ok
-      console.log('Supabase not configured for newsletter');
+        .select('*', { count: 'exact', head: true })
+        .then(({ count, error }: { count: number | null; error: unknown }) => {
+          if (!error && count !== null) {
+            setSubscriberCount(count);
+          }
+        })
+        .catch(() => {});
     }
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,15 +52,20 @@ export default function NewsletterSubscribe() {
 
     setStatus('loading');
 
+    const supabase = getSupabaseClientSafe();
+    if (!supabase) {
+      setStatus('error');
+      setErrorMessage('Serviss pagaidām nav pieejams');
+      return;
+    }
+
     try {
-      const supabase = getSupabaseClient();
       const { error } = await supabase
         .from('newsletter_subscribers')
         .insert({ email: email.toLowerCase().trim() });
 
       if (error) {
         if (error.code === '23505') {
-          // Duplicate email
           setStatus('error');
           setErrorMessage('Šis e-pasts jau ir reģistrēts!');
         } else {
@@ -60,7 +75,10 @@ export default function NewsletterSubscribe() {
         setStatus('success');
         setEmail('');
         // Update count
-        fetchSubscriberCount();
+        const { count } = await supabase
+          .from('newsletter_subscribers')
+          .select('*', { count: 'exact', head: true });
+        if (count !== null) setSubscriberCount(count);
       }
     } catch (err) {
       setStatus('error');
