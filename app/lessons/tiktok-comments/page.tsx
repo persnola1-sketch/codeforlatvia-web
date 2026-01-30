@@ -112,11 +112,28 @@ export default function TikTokCommentsLesson() {
                   </div>
                 </div>
 
-                {/* Yellow Block */}
-                <div className="bg-yellow-500/20 backdrop-blur-xl rounded-2xl border border-yellow-500/30 p-6">
-                  <p className="text-yellow-200 text-lg md:text-xl leading-relaxed">
-                    vēlāk paskaidrošu kā es to izdariju
-                  </p>
+                {/* Guide Teaser Block */}
+                <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-xl rounded-2xl border border-cyan-500/30 p-6">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <div className="text-sm text-cyan-400 font-medium mb-1">PILNA PAMĀCĪBA</div>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        Es neprotu kodēt. Es to uzbūvēju tik un tā.
+                      </h3>
+                      <p className="text-gray-300">
+                        Uzzini precīzi, kā es to izdarīju — ar AI rīkiem un bez programmēšanas pieredzes.
+                      </p>
+                    </div>
+                    <Link 
+                      href="/lessons/tiktok-comments/guide"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-gray-900 font-medium rounded-xl transition-all duration-200 whitespace-nowrap"
+                    >
+                      Lasīt pamācību
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

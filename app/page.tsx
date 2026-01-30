@@ -8,6 +8,7 @@ import DeveloperProfileCard from './components/DeveloperProfileCard';
 import NavigationSidebar from './components/NavigationSidebar';
 import NavigationGuideCard from './components/NavigationGuideCard';
 import MobileHeader from './components/MobileHeader';
+import NewsletterSubscribe from './components/NewsletterSubscribe';
 
 interface Comment {
   id: string;
@@ -56,6 +57,9 @@ export default function Home() {
 
               {/* Stats Card */}
               <StatsBar />
+
+              {/* Newsletter Subscribe */}
+              <NewsletterSubscribe />
             </div>
 
             {/* Column 3 (Right Sidebar): lg:col-span-3 */}
