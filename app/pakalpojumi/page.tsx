@@ -295,20 +295,31 @@ export default function ServicesPage() {
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">💰 LIAA Digitalizācijas Grants</h3>
                 <p className="text-gray-300 mb-3">
-                  Vai zinājāt? Latvijas mazajiem uzņēmumiem pieejams <strong className="text-orange-400">līdz 100% finansējums</strong> digitalizācijas projektiem līdz €5,000. 
-                  Mēs palīdzēsim sagatavot pieteikumu!
+                  Latvijas uzņēmumiem pieejams valsts līdzfinansējums digitalizācijas projektiem:
                 </p>
+                <ul className="text-gray-300 mb-3 space-y-1 text-sm">
+                  <li>• <strong className="text-orange-400">Līdz €10,000</strong> digitālajiem risinājumiem</li>
+                  <li>• <strong className="text-orange-400">Līdz €200,000</strong> AI risinājumiem</li>
+                </ul>
+                <p className="text-sm text-gray-400 mb-2">
+                  <strong>Līdzfinansējuma intensitāte:</strong>
+                </p>
+                <ul className="text-sm text-gray-400 mb-3 space-y-1">
+                  <li>• 50% — maziem uzņēmumiem</li>
+                  <li>• 40% — vidējiem uzņēmumiem</li>
+                  <li>• 30% — small-mid cap uzņēmumiem</li>
+                </ul>
                 <p className="text-sm text-gray-400 mb-3">
-                  Kopā pieejams €37.5M+ no LIAA. Jūsu izmaksas var būt €0.
+                  Programmas budžets: €18.5M (vēl pieejami €13M+). Projekti jāpabeidz līdz 31.05.2029.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a 
-                    href="https://business.gov.lv/atbalsta-iespejas/atbalsts-digitalizacijai" 
+                    href="https://business.gov.lv/atbalsta-iespejas/atbalsts-procesu-digitalizacijai-un-sistemas-liaa" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-sm text-orange-400 hover:text-orange-300 underline"
                   >
-                    → Atbalsts digitalizācijai (business.gov.lv)
+                    → Pieteikties (business.gov.lv)
                   </a>
                   <a 
                     href="https://www.liaa.gov.lv/lv/jaunums/liaa-uzsak-projektu-pienemsanu-jaunaja-digitalizacijas-programma" 
