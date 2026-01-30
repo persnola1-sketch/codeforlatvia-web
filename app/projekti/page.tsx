@@ -36,13 +36,21 @@ const projects = [
     image: '🇱🇻'
   },
   {
-    title: 'Skropstas-Laura KeyDrop',
-    description: 'Mans pirmais projekts! KeyDrop case simulator kopā ar draugu. Šeit viss sākās — pirmie soļi kodēšanā.',
+    title: 'KeyDrop Case Simulator',
+    description: 'Mans pirmais projekts! Case opening simulator. Šeit viss sākās — pirmie soļi kodēšanā.',
+    tech: ['JavaScript', 'HTML', 'CSS'],
+    status: 'live',
+    github: 'https://github.com/persnola1-sketch/KeyDrop',
+    image: '🎮',
+    isFirst: true
+  },
+  {
+    title: 'Skropstas-Laura',
+    description: 'Projekts kopā ar draugu Laura. Viens no agrīnajiem eksperimentiem.',
     tech: ['JavaScript', 'HTML', 'CSS'],
     status: 'live',
     github: 'https://github.com/persnola1-sketch/Skropstas-Laura',
-    image: '🎮',
-    isFirst: true
+    image: '👥'
   },
   {
     title: 'Mia-OS',
