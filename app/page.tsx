@@ -6,7 +6,7 @@ import StatsBar from './components/StatsBar';
 import AboutProjectCard from './components/AboutProjectCard';
 import DeveloperProfileCard from './components/DeveloperProfileCard';
 import NavigationSidebar from './components/NavigationSidebar';
-import NavigationGuideCard from './components/NavigationGuideCard';
+// NavigationGuideCard removed - content moved to /mystack page
 import MobileHeader from './components/MobileHeader';
 import NewsletterSubscribe from './components/NewsletterSubscribe';
 import HeroSection from './components/HeroSection';
@@ -55,9 +55,6 @@ export default function Home() {
 
               {/* Hero/Mission Card */}
               <AboutProjectCard />
-
-              {/* Navigation Guide Card */}
-              <NavigationGuideCard />
 
               {/* Stats Card */}
               <StatsBar />
