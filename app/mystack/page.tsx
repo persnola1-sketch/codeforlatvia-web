@@ -8,11 +8,11 @@ import MobileHeader from '../components/MobileHeader';
 
 const aiTools = [
   {
-    name: 'Mia (Claude)',
+    name: 'Mia',
     emoji: '🧠',
     description: 'Mans AI asistents. Mia ir kā otra smadzenes — viņa saprot kontekstu, atceras mūsu projektus un strādā 24/7.',
     tags: ['Plānošana', 'Koda izskaidrošana', 'Sass raksts', 'Problēmu risināšana'],
-    link: 'https://claude.ai',
+    link: null,
     color: 'purple'
   },
   {
