@@ -10,6 +10,7 @@ import NavigationSidebar from './components/NavigationSidebar';
 import MobileHeader from './components/MobileHeader';
 import NewsletterSubscribe from './components/NewsletterSubscribe';
 import HeroSection from './components/HeroSection';
+import TestimonialsSection from './components/TestimonialsSection';
 
 interface Comment {
   id: string;
@@ -58,6 +59,9 @@ export default function Home() {
 
               {/* Stats Card */}
               <StatsBar />
+
+              {/* Testimonials Section */}
+              <TestimonialsSection />
 
               {/* Newsletter Subscribe */}
               <NewsletterSubscribe />

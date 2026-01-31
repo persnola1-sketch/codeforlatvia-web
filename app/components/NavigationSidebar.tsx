@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Lightbulb, Lock, Video, Layers, FolderKanban, Bot } from 'lucide-react';
+import { Home, Lightbulb, Lock, Video, Layers, FolderKanban, Bot, BookOpen } from 'lucide-react';
 
 interface NavigationSidebarProps {
   isMobileOpen?: boolean;
@@ -15,6 +15,7 @@ export default function NavigationSidebar({ isMobileOpen = false, onMobileClose 
   const navItems = [
     { href: '/', label: 'Sākums', icon: Home },
     { href: '/pakalpojumi', label: 'AI & Automatizācija', icon: Bot, isNew: true },
+    { href: '/blog', label: 'Blogs', icon: BookOpen },
     { href: '/mystack', label: 'My Stack', icon: Layers },
     { href: '/projekti', label: 'Projekti', icon: FolderKanban },
     { href: '/lessons/api-security', label: 'API Drošība', icon: Lock },
